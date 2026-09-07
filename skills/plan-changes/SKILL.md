@@ -89,3 +89,4 @@ Note that it is expected that you populate/fill in each section. This is the ali
 * **Resume from an existing plan**: For a change on an already-planned feature, read the existing plan/progress first rather than re-driving from scratch.
 * **Persist the plan when asked, or to save your work**: Save your plan to the repo/folder you are working in so a later session can read it back and resume.
 * **Writing style**: This should not be thought of as a formal report, but instead as a mechanism to clearly and simply articulate the plan before getting sign-off from the user. Do not include em dashes (-), semicolons, or other overly formal punctuation. Your writing style and tone should reflect the way a person would normally speak.
+* **Context Preservation**: For any non-trivial research, exploration, data-gathering, web search, or code deep-dive task it is expected that you delegate to targeted subagents to ensure that your context is preserved.
