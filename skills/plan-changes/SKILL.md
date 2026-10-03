@@ -62,6 +62,7 @@ Before scoping, find the smallest design that satisfies the intent.
 * If the design keeps growing while you explore, stop and question the requirement. Prefer the smallest change that could work.
 * Prefer extending the pattern the codebase already uses. If a new concept does not fit an existing pattern, say why.
 * If the design has drifted from the intent, for example new tables, services, or layers the requirement never asked for, say so and propose resetting to the smaller design rather than patching the drift.
+* Name the files or concepts the change will add or reshape, and the purpose each one owns. Put that structure to the user and confirm it fits the existing architecture before drafting. If a new file does not fit an existing pattern (a domain, layer, or module), say so and justify it.
 
 For the full architecture heuristics behind this (deletion test, fewest concepts, ownership, state), see the `review-changes` skill.
 
@@ -94,12 +95,32 @@ Note that it is expected that you populate/fill in each section. This is the ali
 * **Background**: A brief overview of the changes, and intent behind those changes, as you understand them.
 * **Context / How does the current approach work today**: This section acts as an easy-to-digest summary which establishes the baseline, from which your proposed changes will be framed against.
 * **Proposed approach**: The changes you are proposing, framed against how the current approach works today. Use the visuals from "Diagrams and visuals" below, and specify types/interfaces and pseudocode for the core logic.
-* **Files and methods to change**: A scoped list of only what will be added/changed/modified as part of this plan. Do not list any code which you are not planning on changing.
+* **Files and methods to change**: Show the change as a directory tree with inline descriptions, not a flat table or list. Group files under their real directories so the structure is obvious. Mark each entry as added, modified, or removed, and give each file a short inline description of its purpose and what it contains. See "File tree format" below.
 * **Implementation order**: A set of sequenced implementation steps. The goal of a given step is to ensure that the associated changes are easy to review and read. 
 * **Tests**: The tests which you intend to perform at each step. The nature and style of the tests are expected to be consistent with the codebase you are working in.
 * **Non-goals / out of scope**: What this plan deliberately excludes, so the boundaries are explicit.
 * **Operations / rollout**: For changes to a deployed system, the env vars, secrets, service settings, and deploy order required. Include anything that has to be configured outside the code.
 * **Open Questions**: Anything that will need the user's input in order to progress.
+
+## File tree format
+
+The "Files and methods to change" section uses a directory tree with inline descriptions, for example:
+
+```text
+src/
+├── domains/
+│   └── company-generation/          [new]
+│       ├── index.ts                 barrel export
+│       └── company-generation.ts    CompanyGenerationDomain. One source at a time:
+│                                    load baseline, update and add per source, resolve
+│                                    logos via the image service, write the diffs.
+├── api/
+│   └── image-service/               [new]
+│       ├── entrypoint.ts            Hono app on :3003. Parses requests, calls the service.
+│       └── company-image-service.ts Owns all sharp work: resolve, materialize, differ.
+└── jobs/
+    └── generate-company-toml.ts     [modified] now a thin adapter over the domain.
+```
 
 ## Diagrams and visuals
 
