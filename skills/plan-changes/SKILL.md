@@ -93,8 +93,9 @@ Present the plan and stop. You must wait for the user to move forward.
 Note that it is expected that you populate/fill in each section. This is the aligned-on shape, and it's expected that it is kept consistent run to run.
 
 * **Background**: A brief overview of the changes, and intent behind those changes, as you understand them.
+* **Smallest design**: The change in one sentence, then what the requirement demands versus what you are choosing to add. Make the essential-versus-added split explicit so scope cannot quietly grow.
 * **Context / How does the current approach work today**: This section acts as an easy-to-digest summary which establishes the baseline, from which your proposed changes will be framed against.
-* **Proposed approach**: The changes you are proposing, framed against how the current approach works today. Use the visuals from "Diagrams and visuals" below, and specify types/interfaces and pseudocode for the core logic.
+* **Proposed approach**: The changes you are proposing, framed against how the current approach works today. Use the visuals from "Diagrams and visuals" below. For anything with a public contract (an API, a client, a domain method), show the input and output shapes as short pseudocode, and use typed interfaces for the core logic.
 * **Files and methods to change**: Show the change as a directory tree with inline descriptions, not a flat table or list. Group files under their real directories so the structure is obvious. Mark each entry as added, modified, or removed, and give each file a short inline description of its purpose and what it contains. See "File tree format" below.
 * **Implementation order**: A set of sequenced implementation steps. The goal of a given step is to ensure that the associated changes are easy to review and read. 
 * **Tests**: The tests which you intend to perform at each step. The nature and style of the tests are expected to be consistent with the codebase you are working in.
