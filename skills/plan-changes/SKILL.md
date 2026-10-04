@@ -1,7 +1,7 @@
 ---
 name: plan-changes
 description: >-
-  Plans a code change before implementation: Use this at the start of any non-trivial change, or when the user says phrases like "before we start", "no coding yet", "write a plan", or asks to get familiar with the code before a specific change / wants to understand how something works before making a change. The outputted implementation-plan HTML file will specify the current vs new/proposed approach, the specific files/methods to touch, implementation steps, tests per implementation step, and open questions. Persist the HTML file in the repo you are working in so later sessions can easily resume from it. It is important that you do not begin making changes until the user has approved the plan.
+  Plans a code change before implementation: Use this at the start of any non-trivial change, or when the user says phrases like "before we start", "no coding yet", "write a plan", or asks to get familiar with the code before a specific change / wants to understand how something works before making a change. The outputted implementation-plan Markdown file will specify the current vs new/proposed approach, the specific files/methods to touch, implementation steps, a verification check per implementation step, and open questions. Persist the Markdown file in the repo you are working in so later sessions can easily resume from it. It is important that you do not begin making changes until the user has approved the plan.
 ---
 
 # Plan changes
@@ -76,15 +76,19 @@ Simply/clearly the specific scope in 1-2 sentences: What are the entry point(s)?
 
 ### Step 4: Draft the plan
 
-Fill every section of the plan template below. Do not code. It is expected that you save your plan as a self-contained `.html` file in the repo/folder you are working in named `<SCOPE_SUMMARY>_PLAN.html`.
+Fill every section of the plan template below. Do not code. Save your plan as a single Markdown file in the repo/folder you are working in named `<SCOPE_SUMMARY>_PLAN.md`.
 
-Your north star here is to create a proposal which is easy for a human to follow, with clear visual separation and hierarchy. Structure it with headings, distinct sections, and whitespace so it can be understood at a glance, even when it is long. Avoid dense, unstructured walls of text. A self-contained `.html` file is expected, viewable without any bundling. Prefer a single `<style>` block and inline JS, but a CDN is fine when it earns its place (for example Tailwind or Mermaid). If you use a CDN, include the exact script tag and any initialization so the page renders correctly when opened. See "Diagrams and visuals" below.
+Your north star here is to create a proposal which is easy for a human to follow, with clear visual separation and hierarchy. Structure it with headings, distinct sections, and whitespace so it can be understood at a glance, even when it is long. Avoid dense, unstructured walls of text.
 
-**Completion Criteria**: The draft plan is saved as expected.
+Write the plan in GitHub-flavored Markdown. Keep it easy to read on a phone and desktop, with short headings, scannable lists, narrow tables, and diagrams that fit a single column. Use the file tree and diagram guidance in **Plan presentation** below.
+
+Each implementation step needs a check that says how we will know it is done. Fill the **Verification setup** section and give every step in the **Implementation order** a **Check** block. Call the Skill tool with `verification-contract` for the format and rules. If a check cannot be run, name the gap for the user to resolve rather than inventing a pass condition.
+
+**Completion Criteria**: The draft plan is saved as expected, and every implementation step has a filled Check block or is explicitly flagged as a verification gap.
 
 ### Step 5: Wait on user review/approval
 
-Present the plan and stop. You must wait for the user to move forward.
+Present the plan and stop. Wait for the user's explicit approval before doing any implementation work. Once the user approves, call the Skill tool with `execute-changes` to implement the plan.
 
 **Completion Criteria**: An explicit user approval ("start implementing", "go for it", etc.) is received before any code can be edited. You are forbidden from making any modifications to code before you receive user approval.
 
@@ -95,15 +99,20 @@ Note that it is expected that you populate/fill in each section. This is the ali
 * **Background**: A brief overview of the changes, and intent behind those changes, as you understand them.
 * **Smallest design**: The change in one sentence, then what the requirement demands versus what you are choosing to add. Make the essential-versus-added split explicit so scope cannot quietly grow.
 * **Context / How does the current approach work today**: This section acts as an easy-to-digest summary which establishes the baseline, from which your proposed changes will be framed against.
-* **Proposed approach**: The changes you are proposing, framed against how the current approach works today. Use the visuals from "Diagrams and visuals" below. For anything with a public contract (an API, a client, a domain method), show the input and output shapes as short pseudocode, and use typed interfaces for the core logic.
-* **Files and methods to change**: Show the change as a directory tree with inline descriptions, not a flat table or list. Group files under their real directories so the structure is obvious. Mark each entry as added, modified, or removed, and give each file a short inline description of its purpose and what it contains. See "File tree format" below.
-* **Implementation order**: A set of sequenced implementation steps. The goal of a given step is to ensure that the associated changes are easy to review and read. 
-* **Tests**: The tests which you intend to perform at each step. The nature and style of the tests are expected to be consistent with the codebase you are working in.
+* **Proposed approach**: The changes you are proposing, framed against how the current approach works today. Use the diagrams and visuals in **Plan presentation** below. For anything with a public contract (an API, a client, a domain method), show the input and output shapes as short pseudocode, and use typed interfaces for the core logic.
+* **Files and methods to change**: Show the change as a directory tree with inline descriptions, not a flat table or list. Group files under their real directories so the structure is obvious. Mark each entry as added, modified, or removed, and give each file a short inline description of its purpose and what it contains. See **Plan presentation** below.
+* **Verification setup**: How to start the system, tell when it is ready, use the feature, save the results, and stop what was started. Use the repo's docs (AGENTS.md, Makefile, README), not guesses. Write `n/a: <reason>` for a field that does not apply.
+* **Implementation order**: A set of sequenced implementation steps, each with a **Check** block (Expected, Command, Setup, Failure). The goal of a given step is to ensure that the associated changes are easy to review and read.
+* **Verification**: The check that shows each step is done. Tests are one kind of check, not the only kind. The format and rules live in the `verification-contract` skill. Changes that affect running services or stored data need a live check. Name any gaps rather than inventing a pass condition.
 * **Non-goals / out of scope**: What this plan deliberately excludes, so the boundaries are explicit.
 * **Operations / rollout**: For changes to a deployed system, the env vars, secrets, service settings, and deploy order required. Include anything that has to be configured outside the code.
 * **Open Questions**: Anything that will need the user's input in order to progress.
 
-## File tree format
+## Plan presentation
+
+Use the following layout and visuals to make the plan easy to scan and understand.
+
+### Files and methods tree
 
 The "Files and methods to change" section uses a directory tree with inline descriptions, for example:
 
@@ -123,33 +132,26 @@ src/
     └── generate-company-toml.ts     [modified] now a thin adapter over the domain.
 ```
 
-## Diagrams and visuals
+### Diagrams and visuals
 
 Plans should communicate with more than prose. Pick whichever of these reads best for the content:
 
-* A short ASCII flow inside `<pre>` for a pipeline or a before/after sequence.
-* HTML/CSS flow boxes for a step sequence.
-* A `<pre>` tree or nested `<ul>` for structure or dependencies.
-* A table for before/after comparisons.
-* A Mermaid diagram when a real graph reads better than text.
-* Typed interfaces and short pseudocode for the core logic.
-* CSS transitions or animations to show a sequence or state change when motion makes it clearer.
+* A fenced code block with a short ASCII flow for a pipeline or a before/after sequence.
+* A fenced code block with a directory tree for structure, or a nested list for dependencies.
+* A Markdown table for before/after comparisons.
+* A Mermaid diagram in a `mermaid` fence when a real graph reads better than text.
+* Typed interfaces and short pseudocode in fenced code blocks for the core logic.
 
-Mermaid and Tailwind are both fine from a CDN. The one catch with Mermaid is that it needs its runtime loaded, otherwise the diagram source renders as dead text. Load it and put the source in a `.mermaid` element:
+For Mermaid diagrams, use a fenced `mermaid` block:
 
-```html
-<script type="module">
-  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
-  mermaid.initialize({ startOnLoad: true, theme: "dark" });
-</script>
-
-<pre class="mermaid">
+````markdown
+```mermaid
 flowchart TD
   A[Start] --> B[Finish]
-</pre>
 ```
+````
 
-Tailwind works the same way, for example `<script src="https://cdn.tailwindcss.com"></script>`. Prefer inline CSS when it is enough, and reach for a CDN only when it earns its place.
+Prefer top-to-bottom diagrams over wide ones. Keep tables short and code blocks narrow so they are easy to read on a phone as well as a larger screen.
 
 ## Things to keep in mind
 
@@ -159,4 +161,5 @@ Tailwind works the same way, for example `<script src="https://cdn.tailwindcss.c
 * **Revise the plan when scope shifts**: If the design or scope changes materially after approval (new components, persistence, or services), update the plan file and re-confirm with the user before continuing. Do not silently expand an approved plan.
 * **Writing style**: This should not be thought of as a formal report, but instead as a mechanism to clearly and simply articulate the plan before getting sign-off from the user. Do not include em dashes (-), semicolons, or other overly formal punctuation. Your writing style and tone should reflect the way a person would normally speak.
 * **Easy to digest**: A plan can be long, but it should never feel dense. Give it clear visual separation and hierarchy so a human can follow it at a glance: headings, distinct sections, whitespace, and a consistent structure. What to avoid is the unbroken block of text with no structure.
+* **Set the verification here**: The executor should run the checks in the approved plan, not decide later what counts as done. Use the `verification-contract` skill for the format and rules.
 * **Context Preservation**: For any non-trivial research, exploration, data-gathering, web search, or code deep-dive task it is expected that you delegate to targeted subagents to ensure that your context is preserved.

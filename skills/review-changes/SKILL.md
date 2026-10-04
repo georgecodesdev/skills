@@ -4,7 +4,7 @@ description: >-
   Reviews a code change using three rigorous, read-only passes: architecture/structure, readability/maintainability, and regression/deployment risk. Use this to get high-quality feedback on your work, or when the user says things like "can you review these changes", "will this break anything", "review this diff", or "I am about to push this code".
 ---
 
-# **Review changes**
+# Review changes
 
 For any non-trivial code change, we want to ensure that the code meets our quality bar. To achieve this, we run a three-pass review intended to emulate a senior software engineer reviewing the given changes. The review passes are scoped to the following areas:
 
@@ -18,11 +18,11 @@ Each review pass is expected to be extremely thorough and rigorous. Measure twic
 
 **Terminology**: Throughout this skill, the **caller** is the party invoking the skill. The caller may be the human user directly, or another agent acting on the user's behalf. Any instruction to clarify something with, receive instructions from, report something to, or hand findings back to the user should be understood as referring to the caller unless the surrounding context explicitly means an end-user of the software being reviewed.
 
-## **Workflow**
+## Workflow
 
 Run these steps in order. Note that this is a read-only operation and you are forbidden from making code changes as part of this process. Your job is to review the changes, not make code changes yourself. You are also forbidden from stashing/committing or modifying the state of the git repo(s) in any way.
 
-### **Step 1: Determine what files are in-scope for the review**
+### Step 1: Determine what files are in-scope for the review
 
 This can be done either by doing one or more of the following:
 
@@ -36,7 +36,7 @@ With this said, a review needs to have a specific scope in mind. If you are uncl
 
 **Completion Criteria**: A list of every modified file which will be in the scope of this review, grouped by the code package which they belong to. No files should be dropped, and excluded files need to be explicitly named.
 
-### **Step 2: Build a complete mental model of the in-scope files for the review**
+### Step 2: Build a complete mental model of the in-scope files for the review
 
 Now that you understand what files are in-scope for the review, it is important you take your time re-familiarizing yourself with the changed files by reading the files as they are, not how you remember them. You are not allowed to rely on your memory of what was changed or modified in a given file. Instead, you must re-read the file to get its accurate post-change state.
 
@@ -44,7 +44,7 @@ It is also expected that you build out a "dependency tree" of the modified files
 
 **Completion Criteria**: Every file from the prior step has been read in full, and its dependency tree has been constructed. You have a complete mental model of the in-scope files for the review.
 
-### **Step 3: Code architecture / structure**
+### Step 3: Code architecture / structure
 
 Before judging how well the code is written, judge whether this is the code which should have been written in the first place. Compare the change against the smallest design which satisfies the requirements of the requested change.
 
@@ -116,7 +116,7 @@ It is expected that you internalize and apply the Code architecture / structure 
 
 **Completion Criteria**: A list of findings, which may be empty. Each finding needs to identify the unnecessary or misplaced architectural complexity, explain why the current structure makes the system harder to understand or maintain, and recommend a simpler structure which remains consistent with the surrounding codebase.
 
-### **Step 4: Readability / maintainability pass**
+### Step 4: Readability / maintainability pass
 
 Now that the architecture of the change has been reviewed, evaluate how clearly and maintainably that design has been expressed in code.
 
@@ -128,9 +128,10 @@ It is expected that you internalize and apply the readability guidelines outline
 
 * **Comments are written when appropriate**:
 
-  * Comments should explain why something is being done when that intent is not obvious from reading the code.
-  * Do not use comments to explain code which should instead be made clearer.
-  * Avoid comments which simply restate what the code is already doing.
+  * Comments should explain why when the reason is not clear from reading the code. A link to a document describing a design decision or external constraint can help.
+  * Keep license headers and useful documentation comments on public APIs.
+  * Do not use comments to explain code which should instead be made clearer, restate what the code does, or narrate the phases of the change.
+  * If a comment claims a constraint ("do not remove"), encode it as a type, test, or lint where possible.
 
 * **Idiomatic practices are being used for the language/framework/library in question**:
 
@@ -190,8 +191,14 @@ It is expected that you internalize and apply the readability guidelines outline
 * **Tests prefer behavior over implementation details**:
 
   * Tests should assert the externally meaningful behavior of the code, not mirror its internal structure.
-  * Be suspicious of tests which break simply because a helper was renamed, extracted, or reorganized while behavior stayed the same.
+  * Ask whether the test could still pass if the code under test did nothing. If it could, the test is not proving the behavior, so strengthen the assertion or remove the test.
+  * Watch for weak assertions, such as checking only that a value exists or that nothing throws. Check that the test asserts the result the code produced.
+  * An assertion that only checks whether a mock was called or a collection is empty may not prove the behavior either.
+  * Expected values should come from an independent source of truth, such as a known-good literal, a worked example, or the spec. Do not compute them the same way as the actual value or copy them from a hand-maintained constant, config default, table row, or prompt string.
+  * Make sure the test runs the code under test, rather than only checking a fixture created in setup.
+  * Tests should not break simply because a helper was renamed, extracted, or reorganized while behavior stayed the same.
   * A refactor which preserves behavior should generally not require rewriting a large portion of the test suite.
+  * Prefer no test over a bad test. A test which cannot fail when behavior is wrong adds cost without protection, so improve it or remove it.
 
 * **Tests themselves remain simple and maintainable**:
 
@@ -209,7 +216,7 @@ It is expected that you internalize and apply the readability guidelines outline
 
 **Completion Criteria**: A list of findings, which may be empty. Each finding needs to be associated with one of the above readability / maintainability guidelines and include a recommended fix.
 
-### **Step 5: Regression / Deployment risk**
+### Step 5: Regression / Deployment risk
 
 Unless otherwise instructed by the caller, assume that the existing code is running without issue in production. We want to reason from the diff outward and determine whether the proposed changes could regress existing behavior, introduce instability, or make the deployment unsafe.
 
@@ -297,7 +304,7 @@ It is expected that you internalize and apply the regression/deployment risk gui
 
 **Completion Criteria**: A list of findings, which may be empty. Each finding needs to be associated with one of the above regression / deployment risk guidelines and include a recommended fix.
 
-### **Step 6: Hand-off findings**
+### Step 6: Hand-off findings
 
 Now that all three review passes are complete, hand the findings back to the caller in a clear and actionable way.
 
@@ -340,7 +347,7 @@ Do not determine the overall assessment mechanically from the number or category
 
 **Completion Criteria**: The complete set of review findings has been handed back to the caller, grouped by pass, with clear reasoning and recommended fixes, along with an overall assessment of whether the changes are ready to merge.
 
-## **Things to keep in mind**
+## Things to keep in mind
 
 * **Context Preservation**: For any non-trivial review or code deep-dive task, it is expected that you delegate to targeted subagents to ensure that your context is preserved.
 
