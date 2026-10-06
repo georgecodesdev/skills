@@ -88,9 +88,11 @@ Each implementation step needs a check that says how we will know it is done. Fi
 
 ### Step 5: Wait on user review/approval
 
-Present the plan and stop. Wait for the user's explicit approval before doing any implementation work. Once the user approves, call the Skill tool with `execute-changes` to implement the plan.
+After saving the plan, ask whether the user wants a walkthrough before reviewing it. If they say yes, call the Skill tool with `walkthrough-changes` and follow it instead of dumping the whole plan into the conversation. When the walkthrough ends, show the plan path and return here to wait for approval. If they say no, present the plan and wait as usual. This is optional, so ask rather than assuming.
 
-**Completion Criteria**: An explicit user approval ("start implementing", "go for it", etc.) is received before any code can be edited. You are forbidden from making any modifications to code before you receive user approval.
+A walkthrough is not approval. Finishing the walkthrough does not start implementation. Only an explicit approval moves to `execute-changes`.
+
+**Completion Criteria**: The user has been walked through the plan or given the chance to skip it, and an explicit user approval ("start implementing", "go for it", etc.) is received before any code can be edited. You are forbidden from making any modifications to code before you receive user approval.
 
 ## Plan template (in-body reference)
 

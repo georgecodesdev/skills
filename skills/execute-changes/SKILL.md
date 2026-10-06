@@ -86,6 +86,14 @@ If an unrelated commit exists since the starting commit, or any checkpoint commi
 
 **Completion Criteria**: The plan's changes are staged as one change set, any checkpoint commits are no longer in local history, and no final commit has been created. The human can review the staged changes and make the final commit.
 
+### Step 8: Offer an optional walkthrough
+
+After the change set is staged, ask whether the caller wants a walkthrough of what was done. If they say yes, call the Skill tool with `walkthrough-changes` and follow it, using the approved plan and staged diff as the source. If they say no, stop here. Ask rather than assuming.
+
+The walkthrough is read-only. It does not change the staged set, create a commit, or push.
+
+**Completion Criteria**: The caller has been walked through the finished change or given the chance to skip it, and the staged change set is unchanged.
+
 ## Things to keep in mind
 
 * **Keep the plan fixed**: If a step cannot be done as planned, stop there and ask the caller how to proceed. Do not silently change the plan.
