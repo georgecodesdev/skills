@@ -1,9 +1,6 @@
 ---
 name: walkthrough-changes
-description: >-
-  Walks a user through a plan or completed change one part at a time, showing a
-  visual that fits each part and waiting before continuing. Use when the user
-  asks to be walked through a plan or change instead of being given a summary.
+description: "Walks a user through a plan or completed change one part at a time, showing a visual that fits each part and waiting before continuing. Use when the user asks to be walked through a plan or change instead of being given a summary."
 ---
 
 # Walkthrough changes

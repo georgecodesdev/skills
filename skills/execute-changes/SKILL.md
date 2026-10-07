@@ -1,7 +1,6 @@
 ---
 name: execute-changes
-description: >-
-  Executes an approved plan step by step: builds each planned change, runs the plan's checks on the real system, reviews the changes, and leaves the approved work staged for the caller. Use this after plan-changes has been approved, or when the user says phrases like "start implementing", "execute the plan", "go for it", "build this", or "work through the plan". The plan is the fixed input, so this skill does not re-plan or redesign.
+description: "Executes an approved plan step by step: builds each planned change, runs the plan's checks on the real system, reviews the changes, and leaves the approved work staged for the caller. Use this after plan-changes has been approved, or when the user says phrases like \"start implementing\", \"execute the plan\", \"go for it\", \"build this\", or \"work through the plan\". The plan is the fixed input, so this skill does not re-plan or redesign."
 ---
 
 # Execute changes

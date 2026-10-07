@@ -1,11 +1,6 @@
 ---
 name: use-herdr
-description: >-
-  Use Herdr to inspect or control terminal panes, tabs, workspaces, and
-  terminals, run commands in another pane, or start and monitor background
-  work such as dev servers. Use it for subagents only when the user or another
-  skill explicitly asks. Requires a Herdr-managed client. For OpenCode server
-  mode, use the session-title check below to find its pane.
+description: "Use Herdr to inspect or control terminal panes, tabs, workspaces, and terminals, run commands in another pane, or start and monitor background work such as dev servers. Use it for subagents only when the user or another skill explicitly asks. Requires a Herdr-managed client. For OpenCode server mode, use the session-title check below to find its pane."
 ---
 
 # Herdr

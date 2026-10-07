@@ -1,7 +1,6 @@
 ---
 name: diagnose-changes
-description: >-
-  Diagnoses a failed check or a runtime symptom before fixing it: reproduce on the real surface, build a tight feedback loop, isolate the cause, confirm the mechanism with runtime evidence, fix the root cause, and re-run the original check. Use when a check goes red and the cause is not obvious, when a bug resists a first look, or for a flake, leak, performance regression, or wrong output. Do not use it to redesign, or to fix by guessing.
+description: "Diagnoses a failed check or a runtime symptom before fixing it: reproduce on the real surface, build a tight feedback loop, isolate the cause, confirm the mechanism with runtime evidence, fix the root cause, and re-run the original check. Use when a check goes red and the cause is not obvious, when a bug resists a first look, or for a flake, leak, performance regression, or wrong output. Do not use it to redesign, or to fix by guessing."
 ---
 
 # Diagnose changes

@@ -1,7 +1,6 @@
 ---
 name: review-changes
-description: >-
-  Reviews a code change using three rigorous, read-only passes: architecture/structure, readability/maintainability, and regression/deployment risk. Use this to get high-quality feedback on your work, or when the user says things like "can you review these changes", "will this break anything", "review this diff", or "I am about to push this code".
+description: "Reviews a code change using three rigorous, read-only passes: architecture/structure, readability/maintainability, and regression/deployment risk. Use this to get high-quality feedback on your work, or when the user says things like \"can you review these changes\", \"will this break anything\", \"review this diff\", or \"I am about to push this code\"."
 ---
 
 # Review changes

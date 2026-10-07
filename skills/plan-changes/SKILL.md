@@ -1,7 +1,6 @@
 ---
 name: plan-changes
-description: >-
-  Plans a code change before implementation: Use this at the start of any non-trivial change, or when the user says phrases like "before we start", "no coding yet", "write a plan", or asks to get familiar with the code before a specific change / wants to understand how something works before making a change. The outputted implementation-plan Markdown file will specify the current vs new/proposed approach, the specific files/methods to touch, implementation steps, a verification check per implementation step, and open questions. Persist the Markdown file in the repo you are working in so later sessions can easily resume from it. It is important that you do not begin making changes until the user has approved the plan.
+description: "Plans a code change before implementation: Use this at the start of any non-trivial change, or when the user says phrases like \"before we start\", \"no coding yet\", \"write a plan\", or asks to get familiar with the code before a specific change / wants to understand how something works before making a change. The outputted implementation-plan Markdown file will specify the current vs new/proposed approach, the specific files/methods to touch, implementation steps, a verification check per implementation step, and open questions. Persist the Markdown file in the repo you are working in so later sessions can easily resume from it. It is important that you do not begin making changes until the user has approved the plan."
 ---
 
 # Plan changes

@@ -1,7 +1,6 @@
 ---
 name: verification-contract
-description: >-
-  The shared verification format and rules used by plan-changes and execute-changes. It defines the plan's verification setup, the check block for each step, where evidence is written, and the pass, fail, and inconclusive rules. Load it when writing a plan's verification, or when running a plan's checks.
+description: "The shared verification format and rules used by plan-changes and execute-changes. It defines the plan's verification setup, the check block for each step, where evidence is written, and the pass, fail, and inconclusive rules. Load it when writing a plan's verification, or when running a plan's checks."
 ---
 
 # Verification contract
