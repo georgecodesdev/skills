@@ -1,6 +1,6 @@
 ---
 name: verification-contract
-description: "The shared verification format and rules used by plan-changes and execute-changes. It defines the plan's verification setup, the check block for each step, where evidence is written, and the pass, fail, and inconclusive rules. Load it when writing a plan's verification, or when running a plan's checks."
+description: "The shared verification format and rules used by plan-changes and execute-changes. It defines the plan's verification setup, the check types, the check block for each step, where evidence is written, and the pass, fail, and inconclusive rules. Load it when writing a plan's verification, or when running a plan's checks."
 ---
 
 # Verification contract
@@ -53,7 +53,7 @@ Use the same natural voice as the plan. Do not use em dashes, semicolons, or ove
 2. The Command must be runnable in the repo. If it is not, name the gap for the user to resolve before approving the plan.
 3. Record the Command and its output. A check without evidence is not a pass.
 4. If a check cannot run, mark it `inconclusive`, not passed.
-5. Changes to running services, jobs, databases, or object storage also need a live check. Automated tests can help, but they do not replace it.
+5. Changes to running services, jobs, databases, object storage, or a browser-visible surface also need a live check. Automated tests can help, but they do not replace it.
 6. Keep the evidence after stopping the system so the reviewer can inspect it later.
 
 ## Where artifacts go
@@ -66,9 +66,10 @@ Keep `evidence/` and `scratch/` out of git. Commit `report.md` only when the wor
 
 * **Test**: a unit, component, or integration test that checks behavior through an appropriate code interface.
 * **Live check**: use the running system the way a user would, and save the result.
+* **Live UI check**: drive the project's UI the way a user would and save the result. Record the route, the state, and what "looks right" means. Use the project's own browser tooling from its docs, and save a screenshot per changed state as evidence. If the project has no browser tooling, name the gap.
 * **Regression check**: run an important existing scenario against the old version and the changed version.
 
-Not every step needs all three. Use the expected result to decide which checks apply. Include a live check when the change affects a running service or changes behavior an existing caller depends on.
+Not every step needs all of these. Use the expected result to decide which checks apply. Include a live check when the change affects a running service or changes behavior an existing caller depends on. Include a live UI check when the change touches a browser-visible surface.
 
 ## Prefer no check over a bad check
 

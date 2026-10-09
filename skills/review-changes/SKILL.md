@@ -1,17 +1,18 @@
 ---
 name: review-changes
-description: "Reviews a code change using three rigorous, read-only passes: architecture/structure, readability/maintainability, and regression/deployment risk. Use this to get high-quality feedback on your work, or when the user says things like \"can you review these changes\", \"will this break anything\", \"review this diff\", or \"I am about to push this code\"."
+description: "Reviews a code change using three rigorous, read-only passes: architecture/structure, readability/maintainability, and regression/deployment risk, plus a UI regression pass for browser-visible changes. Use this to get high-quality feedback on your work, or when the user says things like \"can you review these changes\", \"will this break anything\", \"review this diff\", or \"I am about to push this code\"."
 ---
 
 # Review changes
 
-For any non-trivial code change, we want to ensure that the code meets our quality bar. To achieve this, we run a three-pass review intended to emulate a senior software engineer reviewing the given changes. The review passes are scoped to the following areas:
+For any non-trivial code change, we want to ensure that the code meets our quality bar. To achieve this, we run the three passes below. For a browser-visible change, we add a UI regression pass. The review passes are scoped to the following areas:
 
 * Architecture / Structure
 * Readability / Maintainability
 * Regression / Deployment risk
+* UI regression, only for browser-visible changes
 
-The architecture pass asks whether the change is designed correctly in the first place. The readability pass asks whether the resulting implementation is clear and maintainable. The regression pass asks whether the change can be safely deployed without unexpectedly breaking existing behavior.
+The architecture pass asks whether the change is designed correctly in the first place. The readability pass asks whether the resulting implementation is clear and maintainable. The regression pass asks whether the change can be safely deployed without unexpectedly breaking existing behavior. The UI regression pass asks whether the built surface matches the approved reference and still behaves correctly.
 
 Each review pass is expected to be extremely thorough and rigorous. Measure twice, cut once.
 
@@ -303,15 +304,37 @@ It is expected that you internalize and apply the regression/deployment risk gui
 
 **Completion Criteria**: A list of findings, which may be empty. Each finding needs to be associated with one of the above regression / deployment risk guidelines and include a recommended fix.
 
-### Step 6: Hand-off findings
+### Step 6: UI regression pass
 
-Now that all three review passes are complete, hand the findings back to the caller in a clear and actionable way.
+Only for a change that touches a browser-visible surface. Skip it otherwise.
+
+Now that the other passes are complete, check the built surface against the approved reference. Ask what the surface looked like before, what it looks like now, and whether anything changed that the plan did not ask for.
+
+**UI regression guidelines**
+
+* **References**: Compare the built surface against the approved mock from the plan. When a shared surface changes, compare it with the pre-change behavior too. If that baseline is not available, name the gap instead of guessing.
+* **State coverage**: The families that apply: data, interaction, form, content, system, and recovery. A missing or unreachable state is a finding.
+* **Responsive**: Use the project's breakpoints, including a small mobile width and the main desktop width. Check overflow, truncation, stacking, and touch targets. If the project does not define its breakpoints, name that gap.
+* **Accessibility**: Check semantic structure, labels, focus order, keyboard access, and contrast.
+* **Design-system consistency**: Check that the surface uses the project's tokens and components instead of adding new hardcoded values where those already exist.
+* **Visual quality**: Look for arbitrary values, color as the only indicator, and visual choices that conflict with the product's existing style.
+
+Findings follow the same format as the other passes, grounded to a file, route, or screen. Evidence is a screenshot per changed state plus the accessibility snapshot.
+
+**UI regression north star**: A person can use the changed surface the way the plan describes, on their device, without a visual or interaction regression.
+
+**Completion Criteria**: A list of findings, which may be empty. Each finding is associated with one of the guidelines above and includes a recommended fix.
+
+### Step 7: Hand-off findings
+
+Now that the review passes are complete, hand the findings back to the caller in a clear and actionable way.
 
 Findings should be grouped by review pass:
 
 * Architecture / Structure
 * Readability / Maintainability
 * Regression / Deployment risk
+* UI regression, only when the pass ran
 
 Within each pass, findings should be ordered from highest to lowest impact. Do not bury meaningful issues underneath low-value cleanup.
 
@@ -342,7 +365,7 @@ At the end of the review, give an overall assessment:
 
 * **Changes requested**: The changes do not currently meet one or more of the quality bars defined by this skill. This may be because of one or more Blocking findings, or because the findings in aggregate indicate that the implementation needs another pass before it should be re-reviewed.
 
-Do not determine the overall assessment mechanically from the number or category of findings. Use engineering judgment and evaluate whether the resulting code, taken as a whole, meets the standards defined by all three review passes.
+Do not determine the overall assessment mechanically from the number or category of findings. Use engineering judgment and evaluate whether the resulting code, taken as a whole, meets the standards defined by all applicable review passes.
 
 **Completion Criteria**: The complete set of review findings has been handed back to the caller, grouped by pass, with clear reasoning and recommended fixes, along with an overall assessment of whether the changes are ready to merge.
 

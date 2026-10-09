@@ -1,6 +1,6 @@
 ---
 name: plan-changes
-description: "Plans a code change before implementation: Use this at the start of any non-trivial change, or when the user says phrases like \"before we start\", \"no coding yet\", \"write a plan\", or asks to get familiar with the code before a specific change / wants to understand how something works before making a change. The outputted implementation-plan Markdown file will specify the current vs new/proposed approach, the specific files/methods to touch, implementation steps, a verification check per implementation step, and open questions. Persist the Markdown file in the repo you are working in so later sessions can easily resume from it. It is important that you do not begin making changes until the user has approved the plan."
+description: "Plans a code change before implementation: Use this at the start of any non-trivial change, or when the user says phrases like \"before we start\", \"no coding yet\", \"write a plan\", or asks to get familiar with the code before a specific change / wants to understand how something works before making a change. The outputted implementation-plan Markdown file will specify the current vs new/proposed approach, the specific files/methods to touch, implementation steps, a verification check per implementation step, an approved visual proposal for browser-visible changes, and open questions. Persist the Markdown file in the repo you are working in so later sessions can easily resume from it. It is important that you do not begin making changes until the user has approved the plan."
 ---
 
 # Plan changes
@@ -11,7 +11,7 @@ This is a pre-change workflow. It is different from a post-change workflow. With
 
 ## Workflow
 
-Run these steps in order. It is important that you do not edit code in Steps 1-5. The first code edit happens only after the user has allowed you to progress.
+Run these steps in order. It is important that you do not edit code in Steps 1-6. The first code edit happens only after the user has allowed you to progress.
 
 ### Step 1: Reach a shared understanding
 
@@ -73,7 +73,23 @@ Simply/clearly the specific scope in 1-2 sentences: What are the entry point(s)?
 
 **Completion Criteria**: The scope is a well defined and grounded. It is expected that the we can describe the scope as a 1-3 word "scope summary", and that summary would be specific and meaningful.
 
-### Step 4: Draft the plan
+### Step 4: Align on the UI
+
+Only for a change that touches a browser-visible surface. If that is unclear, ask the user.
+
+Before drafting the plan, produce a visual proposal so the approved look and behavior can be recorded in it.
+
+* Make it look like the real app. Reuse the project's design system and real components where they exist. Use mock data only, with no real side effects. Choose the medium that best shows the work, and say which style source you reused.
+* Cover the state families that apply: data, interaction, form, content, system, and recovery. A missing state becomes part of the spec. Write the behavior as a short list. Add a Mermaid state diagram only when the flow branches.
+* Present it with the `walkthrough-changes` skill, one screen or state at a time.
+* Get explicit approval for the proposal on its own. Approving the mock is not approving the plan, and finishing the walkthrough is not approval either.
+* Record the approved screenshot and the interaction spec in the plan's **Visual proposal** section.
+
+The mock is throwaway. It never becomes the production implementation. Its job is alignment, then it becomes the reference the build is checked against.
+
+**Completion Criteria**: For a browser-visible change, the visual proposal is approved and recorded, or the change is confirmed to have no browser-visible surface.
+
+### Step 5: Draft the plan
 
 Fill every section of the plan template below. Do not code. Save your plan as a single Markdown file in the repo/folder you are working in named `<SCOPE_SUMMARY>_PLAN.md`.
 
@@ -85,7 +101,7 @@ Each implementation step needs a check that says how we will know it is done. Fi
 
 **Completion Criteria**: The draft plan is saved as expected, and every implementation step has a filled Check block or is explicitly flagged as a verification gap.
 
-### Step 5: Wait on user review/approval
+### Step 6: Wait on user review/approval
 
 After saving the plan, ask whether the user wants a walkthrough before reviewing it. If they say yes, call the Skill tool with `walkthrough-changes` and follow it instead of dumping the whole plan into the conversation. When the walkthrough ends, show the plan path and return here to wait for approval. If they say no, present the plan and wait as usual. This is optional, so ask rather than assuming.
 
@@ -101,6 +117,7 @@ Note that it is expected that you populate/fill in each section. This is the ali
 * **Smallest design**: The change in one sentence, then what the requirement demands versus what you are choosing to add. Make the essential-versus-added split explicit so scope cannot quietly grow.
 * **Context / How does the current approach work today**: This section acts as an easy-to-digest summary which establishes the baseline, from which your proposed changes will be framed against.
 * **Proposed approach**: The changes you are proposing, framed against how the current approach works today. Use the diagrams and visuals in **Plan presentation** below. For anything with a public contract (an API, a client, a domain method), show the input and output shapes as short pseudocode, and use typed interfaces for the core logic.
+* **Visual proposal**: For a browser-visible change, the approved mock and interaction spec from Step 4. Link the screenshot and list the states and behavior.
 * **Files and methods to change**: Show the change as a directory tree with inline descriptions, not a flat table or list. Group files under their real directories so the structure is obvious. Mark each entry as added, modified, or removed, and give each file a short inline description of its purpose and what it contains. See **Plan presentation** below.
 * **Verification setup**: How to start the system, tell when it is ready, use the feature, save the results, and stop what was started. Use the repo's docs (AGENTS.md, Makefile, README), not guesses. Write `n/a: <reason>` for a field that does not apply.
 * **Implementation order**: A set of sequenced implementation steps, each with a **Check** block (Expected, Command, Setup, Failure). The goal of a given step is to ensure that the associated changes are easy to review and read.

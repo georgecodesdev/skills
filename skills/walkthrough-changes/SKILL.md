@@ -83,6 +83,7 @@ Pick the form that fits the idea:
 * **Directory tree** for where code lives. Use `[new]`, `[modified]`, and `[removed]`.
 * **Table** for a comparison or a small set of cases.
 * **Before and after** when the important thing is what changed.
+* **Screenshot or state sequence** when the surface is visual. Show the approved or built screen, one screenshot per state.
 * **Plain text** for a short flow or ordering.
 
 A filter, list, config change, or one-line branch usually reads better as a table or code block than as a graph.
