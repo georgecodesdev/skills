@@ -32,6 +32,8 @@ This can be done either by doing one or more of the following:
 
 If you are working across multiple code packages, which may themselves be different git repositories, it's important that you explore every modified file across every code package. Leave no stone unturned, as missing relevant/apposite files will result in an incomplete review.
 
+When re-reviewing, review the whole change, not just the new diff. First check whether the earlier findings were fixed. Then repeat every applicable review step against the full diff. Only report a check as passing if it ran in this review. If it did not run, say so.
+
 With this said, a review needs to have a specific scope in mind. If you are unclear or need clarification to align on exactly what changes you will be reviewing, it is expected that you ask the caller before proceeding. You are only allowed to exclude files from your review if they have been explicitly named.
 
 **Completion Criteria**: A list of every modified file which will be in the scope of this review, grouped by the code package which they belong to. No files should be dropped, and excluded files need to be explicitly named.
@@ -126,12 +128,13 @@ It is expected that you internalize and apply the readability guidelines outline
 
 **Readability / maintainability guidelines**
 
-* **Comments are written when appropriate**:
+* **Comments explain what the code cannot**:
 
-  * Comments should explain why when the reason is not clear from reading the code. A link to a document describing a design decision or external constraint can help.
-  * Keep license headers and useful documentation comments on public APIs.
-  * Do not use comments to explain code which should instead be made clearer, restate what the code does, or narrate the phases of the change.
-  * If a comment claims a constraint ("do not remove"), encode it as a type, test, or lint where possible.
+  * Read every comment, docstring, JSDoc, and comment block the change adds or edits. Do not sample.
+  * Ask what another engineer would misunderstand without each comment. If you cannot name it, delete it. Being accurate is not enough, and do not judge it by whether you would have written it.
+  * Keep only reasons the code cannot show, such as a non-obvious decision, an external constraint, or a likely trap. Keep license headers and documentation for public APIs read without the source.
+  * Make each comment as short as it can be. A paragraph explaining one point is a finding. Delete comments that restate the code or narrate change history, such as "was", "now", or "moved from".
+  * Check deletions too. If removing a comment hides a constraint or likely trap, that is a finding with the same weight as keeping a redundant comment. Encode constraints in a type, test, or lint where possible.
 
 * **Idiomatic practices are being used for the language/framework/library in question**:
 

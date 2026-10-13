@@ -85,9 +85,16 @@ Before drafting the plan, produce a visual proposal so the approved look and beh
 * Get explicit approval for the proposal on its own. Approving the mock is not approving the plan, and finishing the walkthrough is not approval either.
 * Record the approved screenshot and the interaction spec in the plan's **Visual proposal** section.
 
+If the project has a dev server, offer a live preview alongside the screenshot:
+
+* Read the dev command and auth steps from the project's docs.
+* Start the server without blocking the agent. Use Herdr when a persistent terminal fits.
+* Give the user a reachable URL. If it only works from the agent's host, say so instead of offering a dead link.
+* Stop the server after the user reviews the proposal unless they ask to leave it running.
+
 The mock is throwaway. It never becomes the production implementation. Its job is alignment, then it becomes the reference the build is checked against.
 
-**Completion Criteria**: For a browser-visible change, the visual proposal is approved and recorded, or the change is confirmed to have no browser-visible surface.
+**Completion Criteria**: For a browser-visible change, the visual proposal is approved and recorded, or the change is confirmed to have no browser-visible surface. When a live preview is offered, the URL is reachable or the gap is named.
 
 ### Step 5: Draft the plan
 
@@ -117,7 +124,7 @@ Note that it is expected that you populate/fill in each section. This is the ali
 * **Smallest design**: The change in one sentence, then what the requirement demands versus what you are choosing to add. Make the essential-versus-added split explicit so scope cannot quietly grow.
 * **Context / How does the current approach work today**: This section acts as an easy-to-digest summary which establishes the baseline, from which your proposed changes will be framed against.
 * **Proposed approach**: The changes you are proposing, framed against how the current approach works today. Use the diagrams and visuals in **Plan presentation** below. For anything with a public contract (an API, a client, a domain method), show the input and output shapes as short pseudocode, and use typed interfaces for the core logic.
-* **Visual proposal**: For a browser-visible change, the approved mock and interaction spec from Step 4. Link the screenshot and list the states and behavior.
+* **Visual proposal**: For a browser-visible change, the approved mock and interaction spec from Step 4. Link the screenshot, list the states and behavior, and add the live preview URL when there is one.
 * **Files and methods to change**: Show the change as a directory tree with inline descriptions, not a flat table or list. Group files under their real directories so the structure is obvious. Mark each entry as added, modified, or removed, and give each file a short inline description of its purpose and what it contains. See **Plan presentation** below.
 * **Verification setup**: How to start the system, tell when it is ready, use the feature, save the results, and stop what was started. Use the repo's docs (AGENTS.md, Makefile, README), not guesses. Write `n/a: <reason>` for a field that does not apply.
 * **Implementation order**: A set of sequenced implementation steps, each with a **Check** block (Expected, Command, Setup, Failure). The goal of a given step is to ensure that the associated changes are easy to review and read.
