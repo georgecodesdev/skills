@@ -374,6 +374,6 @@ Do not determine the overall assessment mechanically from the number or category
 
 ## Things to keep in mind
 
-* **Context Preservation**: For any non-trivial review or code deep-dive task, it is expected that you delegate to targeted subagents to ensure that your context is preserved.
+* **Delegation**: For a non-trivial review or code deep-dive, use the `delegate-work` skill for the brief and the report.
 
 * **Be rigorous**: Code which has passed your review will eventually be reviewed by the user. To reduce churn, you are expected to hold changes to a high engineering bar and be extremely thorough and rigorous throughout this process.

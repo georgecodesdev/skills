@@ -104,4 +104,4 @@ Always show the new behavior against the current behavior. Do not present a new 
 * **Keep the check-in plain**: Ask whether to continue. Do not use a recommended answer for a comprehension check.
 * **Keep it optional**: A walkthrough should be offered, not assumed.
 * **Writing style**: Write the walkthrough and your messages the way a person would normally speak. Do not include em dashes, semicolons, or overly formal phrasing.
-* **Context Preservation**: For a large plan or diff, it is expected that you delegate reading and fact-finding to targeted subagents so your context is preserved.
+* **Delegation**: For a large plan or diff, use the `delegate-work` skill for the brief and the report.

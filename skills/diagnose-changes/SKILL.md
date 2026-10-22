@@ -76,5 +76,5 @@ Read `AGENTS.md` to learn what tools the repo provides, but do not treat a tool 
 * **One hypothesis at a time**: Rule it out or confirm it before forming the next one.
 * **Revert refuted hypotheses**: Remove changes made for explanations the evidence ruled out.
 * **Inconclusive is an outcome**: If the cause cannot be confirmed, report what was ruled out rather than ship a guess.
-* **Context Preservation**: For any non-trivial investigation, code deep-dive, or log-reading task, it is expected that you delegate to targeted subagents to ensure that your context is preserved.
+* **Delegation**: For a non-trivial investigation, a code deep-dive, or log reading, use the `delegate-work` skill for the brief and the report.
 * **Writing style**: Write the diagnosis and your messages the way a person would normally speak. Do not include em dashes, semicolons, or other overly formal punctuation.

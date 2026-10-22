@@ -99,6 +99,6 @@ The walkthrough is read-only. It does not change the staged set, create a commit
 * **Keep the scope tight**: A bug or cleanup discovered mid-execution becomes its own step. Do not fold it into the step you are working on.
 * **Verification is owned by the plan**: The plan defines what counts as done. Run its checks rather than choosing weaker ones.
 * **Inconclusive is an outcome**: A check which cannot run is never a pass. Report it as `inconclusive`, and continue only with the caller's call.
-* **Context Preservation**: For any non-trivial exploration, broad edit, or code deep-dive task, it is expected that you delegate to targeted subagents to ensure that your context is preserved.
+* **Delegation**: For non-trivial exploration, a broad edit, or a code deep-dive, use the `delegate-work` skill for the brief and the report.
 * **Keep the evidence**: Record the results and save the artifacts where a reviewer can find them after the services are stopped.
 * **Writing style**: Write the report and your messages the way a person would normally speak. Do not include em dashes, semicolons, or other overly formal punctuation.
